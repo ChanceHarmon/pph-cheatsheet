@@ -28,7 +28,7 @@ const puppeteer = require('puppeteer');
 
     let browser = await puppeteer.launch();
     let page = await browser.newPage();
-    page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36')
+    page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36');
 
     let url = 'https://www.codefellows.org/course-calendar'
     await page.goto(url, { waitUntil: 'networkidle2' })
@@ -60,20 +60,13 @@ const puppeteer = require('puppeteer');
       return cleanerArray;
     })
 
-
-    // console.log('hopefully title', data2)
     travelCompanion.calendarSchedule = test(data);
-
 
     let courseArray = [];
 
     for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
       courseArray.push(data2[i])
     }
-
-
-
-    //Last step for full acces to to demo purpose w/o front end
 
     let data3 = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('.course-calendar-quarter-list > div > article > header > h2:first-child'), element => {
@@ -106,7 +99,6 @@ const puppeteer = require('puppeteer');
       })
     }
 
-    // console.log('right before obj', travelCompanion);
     let finalObject = {
       stats: [
         {
@@ -117,6 +109,7 @@ const puppeteer = require('puppeteer');
         }
       ],
     }
+
     finalObject.upComingCourses = [];
 
     for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
@@ -125,9 +118,9 @@ const puppeteer = require('puppeteer');
       });
     }
 
+    console.log('clean', finalObject, finalObject.stats, finalObject.upComingCourses);
 
-    console.log('clean', finalObject, finalObject.stats, finalObject.upComingCourses)
     await browser.close();
-    return travelCompanion;
+    return finalObject;
   })();
 });

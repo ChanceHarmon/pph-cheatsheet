@@ -1,6 +1,7 @@
 'use strict';
-const fs = require('fs')
+
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 (async () => {
 
@@ -19,14 +20,7 @@ const puppeteer = require('puppeteer');
     return { stats: statNumbers, labels: statLabels }
   })
 
-  travelCompanion.codeRocks = data;
-  travelCompanion.cleanObj = {
-    [travelCompanion.codeRocks.labels[0]]: travelCompanion.codeRocks.stats[0],
-    [travelCompanion.codeRocks.labels[1]]: travelCompanion.codeRocks.stats[1],
-    [travelCompanion.codeRocks.labels[2]]: travelCompanion.codeRocks.stats[2],
-    [travelCompanion.codeRocks.labels[3]]: travelCompanion.codeRocks.stats[3],
-  }
-
+  travelCompanion.stats = data;
   console.log('in home page scrape, first in promise\'s')
   await browser.close();
   return travelCompanion;
@@ -35,12 +29,19 @@ const puppeteer = require('puppeteer');
 
     let browser = await puppeteer.launch();
     let page = await browser.newPage();
-    page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36')
+    page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36');
 
     let url = 'https://www.codefellows.org/course-calendar'
     await page.goto(url, { waitUntil: 'networkidle2' })
+
     let data = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('.course-calendar-quarter-list > div > article > h2 > span'), element => {
+        return element.textContent
+      })
+    })
+
+    let data2 = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('.course-calendar-quarter-list > div > article > a > h1'), element => {
         return element.textContent
       })
     })
@@ -49,18 +50,79 @@ const puppeteer = require('puppeteer');
     let test = ((data) => {
       let cleanerArray = []
       for (let i = 0; i < 16; i = i + 2) {
-        let potentialProblemString = `${data[i]}${data[i + 1]}`;
-        let cleanedUpString = potentialProblemString.replace(/(2021Mar)/, '2021 - Mar')
-        cleanerArray.push(cleanedUpString)
+        if (/^[a-zA-z]/.test(data[i + 1])) {
+          cleanerArray.push(data[i]);
+          cleanerArray.push(data[i + 1]);
+        } else {
+          let safeString = `${data[i]}${data[i + 1]}`;
+          cleanerArray.push(safeString)
+        }
       }
       return cleanerArray;
     })
 
     travelCompanion.calendarSchedule = test(data);
-    console.log('both on the same return object', 'first obj came from some home page scraping', travelCompanion.cleanObj, 'the second array came from calendar page scrape', travelCompanion.calendarSchedule)
-    console.log('in course calendar page scrape, second in promise chain')
+
+    let courseArray = [];
+
+    for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
+      courseArray.push(data2[i])
+    }
+
+    let data3 = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('.course-calendar-quarter-list > div > article > header > h2:first-child'), element => {
+        return element.textContent
+      })
+    });
+
+    let timeOfArray = [];
+
+    for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
+      if (/^[Self]/.test(data3[i])) {
+        timeOfArray.push('Self Paced Course');
+      }
+      else if (/^[Saturday,]/.test(data3[i]) || /^[Sunday,]/.test(data3[i])) {
+        timeOfArray.push('One day Course')
+      } else if (/^[Monday - Friday]/.test(data3[i])) {
+        timeOfArray.push('Day Course')
+      } else if (/^[Monday - Thursday]/.test(data3[i])) {
+        timeOfArray.push('Night Course')
+      }
+    }
+    travelCompanion.fullyCleanedData = { stats: {}, results: [] };
+
+
+    for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
+      travelCompanion.fullyCleanedData.results.push(courseArray[i] = {
+        course: courseArray[i],
+        calendarTime: travelCompanion.calendarSchedule[i],
+        typeOfCourse: timeOfArray[i]
+      })
+    }
+
+    let finalObject = {
+      stats: [
+        {
+          statOne: { stat: travelCompanion.stats.labels[0], value: travelCompanion.stats.stats[0] },
+          statTwo: { stat: travelCompanion.stats.labels[1], value: travelCompanion.stats.stats[1] },
+          statThree: { stat: travelCompanion.stats.labels[2], value: travelCompanion.stats.stats[2] },
+          statFour: { stat: travelCompanion.stats.labels[3], value: travelCompanion.stats.stats[3] }
+        }
+      ],
+    }
+
+    finalObject.upComingCourses = [];
+
+    for (let i = 0; i < travelCompanion.calendarSchedule.length; i++) {
+      finalObject.upComingCourses.push({
+        upcomingCourse: courseArray[i]
+      });
+    }
+
+    console.log('clean', finalObject, finalObject.stats, finalObject.upComingCourses);
+
     await browser.close();
-    return travelCompanion;
+    return finalObject;
   })();
 }).then(travelCompanion => {
 
