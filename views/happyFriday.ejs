@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Fellows Stats</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <section>
+      <h2>Code Fellows Highlights</h2>
+      <ul>
+        <li>
+          <h3>
+            <%= finalObject.stats[0].statOne.stat %> : <%= finalObject.stats[0].statOne.value %>
+          </h3>
+        </li>
+        <li>
+          <h3>
+            <%= finalObject.stats[0].statTwo.stat %> : <%= finalObject.stats[0].statTwo.value %>
+          </h3>
+        </li>
+        <li>
+          <h3>
+            <%= finalObject.stats[0].statThree.stat %> : <%= finalObject.stats[0].statThree.value %>
+          </h3>
+        </li>
+        <li>
+          <h3>
+            <%= finalObject.stats[0].statFour.stat %> : <%= finalObject.stats[0].statFour.value %>
+          </h3>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Upcoming Courses</h2>
+      <ul>
+        <% finalObject.upComingCourses.forEach(course=> { %>
+          <li>
+            <h3>
+              <%= course.upcomingCourse.course %>
+            </h3>
+            <h4>
+              <%= course.upcomingCourse.calendarTime %>
+            </h4>
+            <p>
+              <%= course.upcomingCourse.typeOfCourse %>
+            </p>
+          </li>
+
+          <% }) %>
+
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+
+</html>
