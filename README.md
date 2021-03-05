@@ -15,7 +15,20 @@
   **How**
   - How does Web Scraping work?
 
-## Tooling Versions
+## Tooling Versions 
+
+  **Node**
+  - 12.12.0
+
+  **NPM**
+  - 7.5.2
+
+  **Puppeteer**
+  - 8.0.0
+
+  **Operating System**
+  - macOS Big Sur
+    - 11.2.2
 
 ## Resources and Links
 
