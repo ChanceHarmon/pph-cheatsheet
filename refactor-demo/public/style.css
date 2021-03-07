@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+  width: 100%;
+  background-color: oldlace;
+  font-family: Helvetica;
+  color: #333
+}
+main{
+  width:50%;
+  margin: 0 auto;
+  text-align: center;
+}
+h2{
+  background-color: #cc3524;
+  padding-top:1em;
+  padding-bottom: 1em;
+  border-radius: 3px;
+}
+
+li{
+  margin-top: 25px;
+}
