@@ -4,6 +4,13 @@
 
   This demo and code base is just to illustrate how to approach learning any new tool or technology in general. We show case how to scrape a website that I had approval to do so on, and more importantly are here to show how Puppeteer can be used in tandem with Node.js to scrape data from websites. With a few added features just for fun.
 
+## Refactor and Revision
+
+  **Difference Between Original Demo**
+
+    - All of the code between the two directories do the exact samething.
+    - The large benefit of the refactor is abstracting some of the cleanup functions into utilities, and also isolating the sccrape call itself for use in the express demo's.
+
 ## Over-View
 
   **Why**
