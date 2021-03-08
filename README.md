@@ -6,21 +6,39 @@
 
 ## Refactor and Revision
 
-  **Difference Between Original Demo**
+  **Difference Between Original Demo VS Refactor Demo**
 
-    - All of the code between the two directories do the exact samething.
-    - The large benefit of the refactor is abstracting some of the cleanup functions into utilities, and also isolating the sccrape call itself for use in the express demo's.
+    - All of the code between the two directories produce the same output.
+
+    - The large benefit of the refactor is abstracting some of the cleanup functions into utilities, and also isolating the scrape call itself for use in the express demo's.
+
+    - In the current version, so much code has been cut out by doing the labor of modularization.
 
 ## Over-View
 
   **Why**
+
   - Why Learn Web Scraping?
 
+    Basically personal data and large datasets are big money. This can be everything from tracking the different websites you visit, what kind of credit card you use most online, and several other factors.
+
+
   **What**
+
   - What is Web Scraping?
 
+    It is just simply a tool to collect information based upon a specific url to scrape. The idea is, load a page, take a look at all of it's rendered HTML, decide what you would like to do with that info, and return something useful from all of your hard work.
+
   **How**
+
   - How does Web Scraping work?
+
+    The fundementals of Puppeteer are:
+    - `start a Chrome browser instance`
+    - `after, start a page instance in the browser`
+    - `decide and implement a url to target`
+    - `do your amazing logic`
+    - `do something with your fruit`
 
 ## Tooling Versions 
 
