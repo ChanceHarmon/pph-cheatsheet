@@ -1,9 +1,9 @@
 'use strict';
 const puppeteer = require('puppeteer');
-const cleanupDateRanges = require('./utilFunctions/cleanupDateRanges.js');
-const courseTitles = require('./utilFunctions/courseArray.js');
-const dayOrNight = require('./utilFunctions/dayOrNight.js');
-(async () => {
+const cleanupDateRanges = require('./cleanupDateRanges.js');
+const courseTitles = require('./courseArray.js');
+const dayOrNight = require('./dayOrNight.js');
+module.exports = async function dualScrape() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36');
@@ -27,4 +27,4 @@ const dayOrNight = require('./utilFunctions/dayOrNight.js');
   console.log('just travel', travelCompanion);
   await browser.close();
   return travelCompanion;
-})();
+};

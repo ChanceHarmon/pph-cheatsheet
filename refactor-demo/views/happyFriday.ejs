@@ -15,44 +15,30 @@
     <section>
       <h2>Code Fellows Highlights</h2>
       <ul>
-        <li>
-          <h3>
-            <%= finalObject.stats[0].statOne.stat %> : <%= finalObject.stats[0].statOne.value %>
-          </h3>
-        </li>
-        <li>
-          <h3>
-            <%= finalObject.stats[0].statTwo.stat %> : <%= finalObject.stats[0].statTwo.value %>
-          </h3>
-        </li>
-        <li>
-          <h3>
-            <%= finalObject.stats[0].statThree.stat %> : <%= finalObject.stats[0].statThree.value %>
-          </h3>
-        </li>
-        <li>
-          <h3>
-            <%= finalObject.stats[0].statFour.stat %> : <%= finalObject.stats[0].statFour.value %>
-          </h3>
-        </li>
+        <% finalObject.stats.value.forEach((value,index)=> { %>
+          <li>
+            <h3>
+              <%= finalObject.stats.labels[index] %> : <%= value %>
+            </h3>
+          </li>
+          <% }) %>
       </ul>
     </section>
     <section>
       <h2>Upcoming Courses</h2>
       <ul>
-        <% finalObject.upComingCourses.forEach(course=> { %>
+        <% finalObject.calendarSchedule.forEach((course, index)=> { %>
           <li>
             <h3>
-              <%= course.upcomingCourse.course %>
+              <%= finalObject.courseTitles[index] %>
             </h3>
             <h4>
-              <%= course.upcomingCourse.calendarTime %>
+              <%= course %>
             </h4>
             <p>
-              <%= course.upcomingCourse.typeOfCourse %>
+              <%= finalObject.dayOrNight[index] %>
             </p>
           </li>
-
           <% }) %>
 
       </ul>
